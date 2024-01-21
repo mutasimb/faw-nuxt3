@@ -1,4 +1,8 @@
 <script setup>
+useHead({
+  title: 'User'
+})
+
 definePageMeta({
   layout: 'user',
   auth: true

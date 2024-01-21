@@ -1,6 +1,10 @@
 <script setup>
 import { storeToRefs } from 'pinia';
 
+useHead({
+  title: 'Log In'
+})
+
 const
   phone = ref(''),
   password = ref(''),

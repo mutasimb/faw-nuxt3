@@ -1,3 +1,9 @@
+<script setup>
+useHead({
+  title: 'Data'
+})
+</script>
+
 <template>
   <v-container class="h-100">
     <v-row class="h-100">
