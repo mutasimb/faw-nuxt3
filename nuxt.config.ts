@@ -5,22 +5,10 @@ export default defineNuxtConfig({
   app: {
     head: {
       link: [
-        {
-          rel: "preconnect",
-          href: "https://fonts.googleapis.com"
-        },
-        {
-          rel: "preconnect",
-          href: "https://fonts.gstatic.com"
-        },
-        {
-          rel: "stylesheet",
-          href: "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
-        },
-        {
-          rel: "stylesheet",
-          href: "https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap"
-        }
+        { rel: "preconnect", href: "https://fonts.googleapis.com" },
+        { rel: "preconnect", href: "https://fonts.gstatic.com" },
+        { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" },
+        { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap" }
       ]
     }
   },
@@ -35,6 +23,7 @@ export default defineNuxtConfig({
     transpile: ['vuetify'],
   },
   modules: [
+    "@vite-pwa/nuxt",
     (_options, nuxt) => {
       nuxt.hooks.hook(
         'vite:extendConfig',
@@ -48,6 +37,42 @@ export default defineNuxtConfig({
       template: {
         transformAssetUrls,
       },
+    },
+  },
+  pwa: {
+    registerType: 'autoUpdate',
+    manifest: {
+      name: 'Fall Armyworm Monitor',
+      short_name: 'faw-monitor',
+      theme_color: '#ffffff',
+      icons: [
+        { src: 'icons/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+        { src: 'icons/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+        { src: 'icons/favicon-72x72.png', sizes: '72x72', type: 'image/png' },
+        { src: 'icons/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
+        { src: 'icons/favicon-128x128.png', sizes: '128x128', type: 'image/png', },
+        { src: 'icons/favicon-128x128.png', sizes: '128x128', type: 'image/png', purpose: 'any maskable' },
+        { src: 'icons/favicon-144x144.png', sizes: '144x144', type: 'image/png' },
+        { src: 'icons/favicon-152x152.png', sizes: '152x152', type: 'image/png' },
+        { src: 'icons/favicon-192x192.png', sizes: '192x192', type: 'image/png' },
+        { src: 'icons/favicon-384x384.png', sizes: '384x384', type: 'image/png' },
+        { src: 'icons/favicon-512x512.png', sizes: '512x512', type: 'image/png' }
+      ],
+    },
+    workbox: {
+      globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
+    },
+    client: {
+      installPrompt: true,
+      // you don't need to include this: only for testing purposes
+      // if enabling periodic sync for update use 1 hour or so (periodicSyncForUpdates: 3600)
+      // periodicSyncForUpdates: 20,
+    },
+    devOptions: {
+      enabled: true,
+      suppressWarnings: true,
+      navigateFallbackAllowlist: [/^\/$/],
+      type: 'module',
     },
   },
 });
