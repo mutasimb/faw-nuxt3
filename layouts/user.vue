@@ -1,5 +1,17 @@
+<script setup>
+import { storeToRefs } from 'pinia';
+
+import { useUserStore } from '@/stores/user';
+
+const
+  storeUser = useUserStore(),
+  { user } = storeToRefs(storeUser)
+
+storeUser.getUser()
+</script>
+
 <template>
-  <v-app full-height class="bg-grey-lighten-5">
+  <v-app v-if="!(!user)" full-height class="bg-grey-lighten-5">
     <AppBarUser />
 
     <NavigationDrawerList />

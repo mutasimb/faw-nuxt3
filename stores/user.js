@@ -11,22 +11,16 @@ export const useUserStore = defineStore('user', () => {
     user = ref(null),
     
     getUser = async () => {
-      console.log("getUser: initiate useFetch")
       const { data, error } = await useFetch('/api/auth/user')
-      console.log("getUser: after useFetch")
 
-      if(error.value) {
-        console.log("getUser: error")
-
+      if (error.value) {
         user.value = null
 
         messageType.value = 'error'
         message.value = error.value.statusMessage
       }
 
-      if(data.value) {
-        console.log("getUser: data")
-
+      if (data.value) {
         const { user: userResponse } = data.value
         user.value = userResponse
       }
