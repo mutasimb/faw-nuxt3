@@ -5,7 +5,6 @@ useHead({
 </script>
 
 <template>
-  <NuxtPwaManifest />
   <NuxtLoadingIndicator />
 
   <NuxtLayout>
