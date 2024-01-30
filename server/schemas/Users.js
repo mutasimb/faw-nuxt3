@@ -5,6 +5,12 @@ export default new Schema({
   role: { type: String, default: "Data", enum: ["Super Admin", "Moderator", "User Manager", "Data"] },
   title: { type: String },
   org: { type: String },
+  adm: {
+    adm1: { type: String },
+    adm2: { type: String },
+    adm3: { type: String },
+    adm4: { type: String }
+  },
   email: { type: String },
   phone: { type: String, unique: true },
   defaultSeason : { type: Schema.Types.ObjectId, ref: "seasons" },
@@ -15,5 +21,7 @@ export default new Schema({
     { type: Schema.Types.ObjectId, ref: "seasons" }
   ],
   password: { type: String, required: true },
-  test: { type: Boolean }
+  test: { type: Boolean },
+  tag: [{ type: String }],
+  needPasswordReset: { type: Boolean, default: true }
 })
