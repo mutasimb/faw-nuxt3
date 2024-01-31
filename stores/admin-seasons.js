@@ -1,4 +1,5 @@
 import { defineStore, storeToRefs } from 'pinia';
+import * as d3 from 'd3-time-format'
 
 import { useSnackbarStore } from '@/stores/snackbar';
 import { useSeasonsStore } from '@/stores/seasons';
@@ -9,6 +10,21 @@ export const useAdminSeasonsStore = defineStore('admin-seasons', () => {
     storeSnackbar = useSnackbarStore(),
     { seasons } = storeToRefs(storeSeasons),
     { messageType, message } = storeToRefs(storeSnackbar)
+
+  const
+    seasonsList = computed(() => seasons.value
+      .map(el => ({
+        _id: el._id,
+        code: el.code,
+        name: el.name,
+        season: el.season,
+        crops: el.crops.join(', '),
+        nTrap: el.nTrap,
+        date: d3.timeParse('%Y/%-m/%-d')(`${el.iY}/${el.im}/${el.id}`),
+        default: el.default ? '\u2713' : '-'
+      }))
+      .sort((a, b) => a.date > b.date ? -1 : 1)
+    )
 
   const
     dialogFormSeason = ref(false),
@@ -97,66 +113,10 @@ export const useAdminSeasonsStore = defineStore('admin-seasons', () => {
         displayPassword.value = savedpassword
       }
     }
-    // postEditAdmin = async () => {
-    //   const { data, error } = await useFetch('/api/admin/edit', {
-    //     method: 'post',
-    //     body: { id: id.value, ...formData.value }
-    //   })
-
-    //   if (error.value) {
-    //     messageType.value = 'error'
-    //     message.value = error.value.statusMessage
-    //   }
-
-    //   if (data.value) {
-    //     const
-    //       { savedUser } = toRaw(data.value),
-        
-    //       index = usersAdmin.value.findIndex(el => el._id === savedUser._id)
-    //     usersAdmin.value.splice(index, 1, savedUser)
-    //   }
-    // },
-    // deleteUserAdmin = async user => {
-    //   const { data, error } = await useFetch('/api/admin/remove', {
-    //     method: 'delete',
-    //     body: { id: user._id }
-    //   })
-
-    //   if (error.value) {
-    //     messageType.value = 'error'
-    //     message.value = error.value.statusMessage
-    //   }
-
-    //   if (data.value) {
-    //     const index = usersAdmin.value.findIndex(el => el._id === user._id)
-    //     usersAdmin.value.splice(index, 1)
-    //   }
-    // },
-    // changePasswordUserAdmin = async user => {
-    //   const { data, error } = await useFetch('/api/admin/change-password', {
-    //     method: 'patch',
-    //     body: { id: user._id }
-    //   })
-
-    //   if (error.value) {
-    //     messageType.value = 'error'
-    //     message.value = error.value.statusMessage
-    //   }
-
-    //   if (data.value) {
-    //     const { savedpassword } = toRaw(data.value)
-
-    //     displayDialogPassword.value = true
-    //     displayPasswordUserName.value = user.name
-    //     displayPasswordUserPhone.value = user.phone
-    //     displayPassword.value = savedpassword
-    //   }
-    // },
-    // $reset = () => {
-    //   usersAdmin.value = []
-    // };
 
   return {
+    seasonsList,
+
     dialogFormSeason,
 
     code,

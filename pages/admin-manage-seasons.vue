@@ -2,7 +2,6 @@
 import { storeToRefs } from 'pinia'
 import * as d3 from 'd3-time-format'
 
-import { useSeasonsStore } from '@/stores/seasons'
 import { useAdminSeasonsStore } from '@/stores/admin-seasons'
 
 useHead({
@@ -16,20 +15,18 @@ definePageMeta({
 })
 
 const
-  storeSeasons = useSeasonsStore(),
   storeAdminSeasons = useAdminSeasonsStore(),
-  { seasons } = storeToRefs(storeSeasons),
-  { dialogFormSeason } = storeToRefs(storeAdminSeasons),
+  { seasonsList, dialogFormSeason } = storeToRefs(storeAdminSeasons),
 
   headers = computed(() => {
     return [
       { title: 'Code', key: 'code', align: 'start', sortable: false },
       { title: 'Name', key: 'name', align: 'start', sortable: false },
       { title: 'Season', key: 'season', align: 'start', sortable: false },
-      { title: 'Crops', key: 'crops', align: 'start', sortable: false, value: item => item.crops.join(', ') },
+      { title: 'Crops', key: 'crops', align: 'start', sortable: false },
       { title: 'Traps', key: 'nTrap', align: 'end', sortable: false },
-      { title: 'Date Start', key: 'date', align: 'end', sortable: false, value: item => d3.timeFormat('%B %-d, %Y')(d3.timeParse('%Y/%-m/%-d')(`${item.iY}/${item.im}/${item.id}`)) },
-      { title: 'Default', key: 'default', align: 'center', sortable: false, value: item => item.default ? '\u2713' : '-' },
+      { title: 'Date Start', key: 'date', align: 'end', sortable: false, value: item => d3.timeFormat('%B %-d, %Y')(item.date) },
+      { title: 'Default', key: 'default', align: 'center', sortable: false, value: item => item.default },
       { title: 'Actions', key: 'actions', align: 'center', sortable: false }
     ]
   }),
@@ -47,7 +44,12 @@ const
     <v-row class="h-100">
       <v-col>
         <v-card variant="outlined" class="bg-white">
-          <v-data-table :headers="headers" :items="seasons" items-per-page="-1">
+          <v-data-table
+            :headers="headers"
+            :items="seasonsList"
+            items-per-page="-1"
+            density="compact"
+          >
 
             <template #top>
               <v-toolbar flat color="white">
