@@ -2,7 +2,7 @@ import { Schema } from 'mongoose'
 
 export default new Schema({
   name: { type: String, required: true },
-  role: { type: String, default: "Data", enum: ["Super Admin", "Moderator", "User Manager", "Data"] },
+  role: { type: String, default: "Data", enum: ["Super Admin", "Moderator", "User Manager", "Data Viewer", "Data"] },
   title: { type: String },
   org: { type: String },
   adm: {
